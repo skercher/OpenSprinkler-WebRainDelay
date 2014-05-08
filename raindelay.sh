@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # The URL for the Yahoo weather API. To configure the URL for
 # your location, simpy browse to http://weather.yahoo.com and
@@ -11,13 +11,14 @@
 #
 # the ID for that location, therefore, is 23686031.
 
-loc=23686031
+#loc=12792927
+loc=2430632
 
 
 # The URL to use to connect to the interval program running on
 # your OpenSprinkler or OSPi
 
-os="http://localhost:8000"
+os="http://sk.kerchserver.com:7000"
 pw=opendoor
 
 ############ NO NEED TO EDIT BELOW THIS LINE ###############
@@ -29,5 +30,6 @@ url="http://weather.yahooapis.com/forecastrss?w=$loc"
 pushd $dir > /dev/null
 code=`curl "$url" | xsltproc $xsl -`
 delay=`grep "^${code}," "$csv" | cut -d , -f 3`
+echo "DELAY " $delay 
 [[ -z "$delay" ]] || curl "${os}/cv?pw=${pw}&rd=$delay"
 popd > /dev/null
