@@ -18,8 +18,8 @@ loc=2430632
 # The URL to use to connect to the interval program running on
 # your OpenSprinkler or OSPi
 
-os="http://sk.kerchserver.com:7000"
-pw=opendoor
+os=
+pw=
 
 ############ NO NEED TO EDIT BELOW THIS LINE ###############
 
