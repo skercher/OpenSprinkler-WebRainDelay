@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # The URL for the Yahoo weather API. To configure the URL for
 # your location, simpy browse to http://weather.yahoo.com and
@@ -29,7 +29,9 @@ csv="yahoo_weather.csv"
 url="http://weather.yahooapis.com/forecastrss?w=$loc"
 pushd $dir > /dev/null
 code=`curl "$url" | xsltproc $xsl -`
+weather=`grep "^${code}," "$csv"`
 delay=`grep "^${code}," "$csv" | cut -d , -f 3`
 echo "DELAY " $delay 
+echo $weather | mail -s "OpenSprinkler RainDelay DELAY: ${delay}" shawn.kercher@gmail.com
 [[ -z "$delay" ]] || curl "${os}/cv?pw=${pw}&rd=$delay"
 popd > /dev/null
