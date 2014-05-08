@@ -18,8 +18,6 @@ loc=2430632
 # The URL to use to connect to the interval program running on
 # your OpenSprinkler or OSPi
 
-os="http://sk.kerchserver.com:7000"
-pw=opendoor
 
 ############ NO NEED TO EDIT BELOW THIS LINE ###############
 
@@ -32,6 +30,11 @@ code=`curl "$url" | xsltproc $xsl -`
 weather=`grep "^${code}," "$csv"`
 delay=`grep "^${code}," "$csv" | cut -d , -f 3`
 echo "DELAY " $delay 
-echo $weather | mail -s "OpenSprinkler RainDelay DELAY: ${delay}" shawn.kercher@gmail.com
-[[ -z "$delay" ]] || curl "${os}/cv?pw=${pw}&rd=$delay"
+
+if [[ ! -z "$delay" ]];then
+    echo "Setting OpenSprinkler for Delay: " $delay " Weather: " $weather 
+    curl "${os}/cv?pw=${pw}&rd=$delay"
+    echo $weather | mail -s "OpenSprinkler RainDelay DELAY: ${delay} Hours" shawn.kercher@gmail.com
+fi
+#[[ -z "$delay" ]] || curl "${os}/cv?pw=${pw}&rd=$delay"
 popd > /dev/null
