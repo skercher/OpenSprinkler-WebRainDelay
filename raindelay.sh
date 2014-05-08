@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 # The URL for the Yahoo weather API. To configure the URL for
 # your location, simpy browse to http://weather.yahoo.com and
